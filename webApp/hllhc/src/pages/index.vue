@@ -1,11 +1,7 @@
 <template>
  <div>
-    <div>
-      id:<el-input v-model="id"></el-input>
-      <el-button @click="submit">提交</el-button>
-    </div>
-    <div>
-      <el-input v-model="data"></el-input>
+    <div class="login-content">
+gfhhgf
     </div>
   </div>
 </template>
@@ -18,11 +14,6 @@ export default {
     }
   },
   methods: {
-    submit () {
-      this.$axios.post('api/Handler.ashx?id=' + this.id).then(res => {
-        this.data = res.data
-      })
-    }
   }
 }
 </script>
