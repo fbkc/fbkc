@@ -1,46 +1,21 @@
 <template>
  <div class="login-page">
     <div class="login-box">
-      <div>
+      <div class="login-box-title">
         <span>信息发布</span>
       </div>
-      <div>
-        <!-- <el-form ref="form" :model="form" label-width="80px">
-          <el-form-item label="活动名称">
+      <div class="login-box-content">
+        <el-form :rules="rules" class="login-form" ref="passForm" :model="form" label-width="80px">
+          <el-form-item prop="userName" label="用户名：">
             <el-input v-model="form.userName"></el-input>
           </el-form-item>
-        </el-form>
-        <el-form ref="passForm" :model="form" label-width="80px">
-          <el-form-item label="用户名：">
-            <el-input v-model="form.usrName"></el-input>
-          </el-form-item>
-          <el-form-item label="密码：">
+          <el-form-item prop="passWord" label="密码：">
             <el-input v-model="form.password" type="password"></el-input>
           </el-form-item>
-        </el-form> -->
-        <el-table
-          :data="tableData"
-          style="width: 100%">
-          <el-table-column
-            prop="date"
-            label="日期"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="姓名"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="address"
-            label="地址">
-          </el-table-column>
-        </el-table>
-        <el-switch
-          v-model="value2"
-          active-color="#13ce66"
-          inactive-color="#ff4949">
-        </el-switch>
+        </el-form>
+        <div class="login-box-button">
+          <el-button size="mini" @click="login">登陆系统</el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -53,25 +28,14 @@ export default {
         userName: '',
         passWord: ''
       },
-      value1: true,
-      value2: true,
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      rules: {
+        userName: [
+          { required: true, message: '请输入用户名！', trigger: 'blur' }
+        ],
+        passWord: [
+          { required: true, message: '请输入密码！', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
@@ -79,23 +43,68 @@ export default {
       this.$axios.post('api/Handler.ashx?id=' + this.id).then(res => {
         this.data = res.data
       })
+    },
+    login () {
+      this.$refs.passForm.validate((valid) => {
+        if (valid) {
+          let self = this
+          self.$store.dispatch('userlogin', {
+            username: self.form.userName,
+            password: self.form.passWord
+          })
+        } else {
+          this.$message.warning('请检查用户名和密码是否输入正确！')
+        }
+      })
     }
   }
 }
 </script>
 <style lang="less" scoped>
 .login-page{
-  background: url(../assets/image/timg.jpg) no-repeat;
-  background-size: 100% 100%;
+  // background-color: rgba(0, 0, 0, 0.3);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: url(../assets/image/login_bg.jpg) no-repeat;
   .login-box{
-    width: 280px;
-    height: 320px;
-    padding: 24px;
+    height: 260px;
+    width: 260px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    left: 70%;
+    top: 24%;
     position: absolute;
-    left:50%;
-    top:50%;
-    margin-left:-100px;
-    margin-top:-100px;
+    z-index: 99;
+    .login-box-title{
+      text-align: center;
+      color: #fff;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .login-box-content{
+      font-size: 18px;
+      color: #fff;
+      background: white;
+      width: 100%;
+      height: 80%;
+      border-radius: 8px;
+      .login-form{
+        position: relative;
+        width: 95%;
+        top: 24px;
+      }
+      .login-box-button{
+        padding-top: 34px;
+        .el-button{
+          width: 90%;
+          height: 34px;
+          background-color: #009688;
+          color: #fff;
+        }
+      }
+    }
   }
 }
 </style>
