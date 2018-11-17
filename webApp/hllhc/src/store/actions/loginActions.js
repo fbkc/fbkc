@@ -9,24 +9,21 @@ if (process.env.NODE_ENV !== 'development') {
 let loginActions = {
   userLogin (context, params) {
     let vm = this._vm
-    return vm.$axios.post(`/api/login?username=${params.username}&password=${params.password}`, {}, {
-        guest: true,
-        params: {
-        redirect_uri: urlPrefix + '/loginInterface'
-        }
+    return vm.$axios.get(`/api/UserHandler.ashx?action=login&username=${params.username}&password=${params.password}`, {}, {
+      guest: true,
+      params: {
+        redirect_uri: urlPrefix + '/main/login'
+      }
     }).then(resp => {
-        let randomState = sessionStorage.getItem('uaastate') || Math.floor(Math.random() * 10000)
-        sessionStorage.setItem('uaastate', randomState)
-        window.location.href = `/uaa/oauth/authorize?response_type=code&client_id=${loginConfig.clientId}&scope=openid&state=${randomState}&redirect_uri=${window.location.origin}${urlPrefix}/loginInterface`
-        }).catch(err => {
-        let errInfo = err.headers.message ? decodeURI(err.headers.message) : '登录失败'
-        vm.$message({
-        type: 'error',
-        message: errInfo
-        })
+      let data = JSON.parse(resp.data)
+      if (data.code === '1' && data.detail.userCookie) {
+        sessionStorage.setItem('atk', resp.data.detail.userCookie)
+      } else {
+        this.$message.error(data.msg)
+      }
     })
-    },
-    getAccessToken (context, params) {
+  },
+  getAccessToken (context, params) {
     return this._vm.$axios.post('/uaa/oauth/token', {}, {
         params: {
         grant_type: 'authorization_code',
@@ -41,7 +38,7 @@ let loginActions = {
     }).catch(() => {
         this._vm.$message.error('获取token失败')
     })
-    }
+  }
 }
 
 export default loginActions

@@ -9,7 +9,7 @@
           <el-form-item prop="userName" label="用户名：">
             <el-input v-model="form.userName"></el-input>
           </el-form-item>
-          <el-form-item prop="passWord" label="密码：">
+          <el-form-item prop="password" label="密码：">
             <el-input v-model="form.password" type="password"></el-input>
           </el-form-item>
         </el-form>
@@ -26,13 +26,13 @@ export default {
     return {
       form: {
         userName: '',
-        passWord: ''
+        password: ''
       },
       rules: {
         userName: [
           { required: true, message: '请输入用户名！', trigger: 'blur' }
         ],
-        passWord: [
+        password: [
           { required: true, message: '请输入密码！', trigger: 'blur' }
         ]
       }
@@ -48,9 +48,9 @@ export default {
       this.$refs.passForm.validate((valid) => {
         if (valid) {
           let self = this
-          self.$store.dispatch('userlogin', {
+          self.$store.dispatch('userLogin', {
             username: self.form.userName,
-            password: self.form.passWord
+            password: self.form.password
           })
         } else {
           this.$message.warning('请检查用户名和密码是否输入正确！')
@@ -96,6 +96,7 @@ export default {
         top: 24px;
       }
       .login-box-button{
+        text-align: center;
         padding-top: 34px;
         .el-button{
           width: 90%;

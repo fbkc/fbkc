@@ -1,8 +1,8 @@
 <template>
- <div>
-    <div class="login-content">
-gfhhgf
-    </div>
+<!-- 门户首页 -->
+ <div class="index">
+      <div class="left-menus"></div>
+      <div class="main-content"> 登陆成功页</div>
   </div>
 </template>
 <script>
@@ -17,3 +17,8 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+.left-menus{
+
+}
+</style>
