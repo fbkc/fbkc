@@ -1,25 +1,17 @@
 <template>
     <div class="admin-container">
       <div class="admin-left-menu el-menu-vertical-demo">
-        <el-menu
-            default-active="1-1">
-            <el-submenu index="1">
+        <el-menu class="project-overview__menu" @select="menuSelect" style="height:100%;">
+            <el-submenu class="project-overview__submenu" v-for="(menu, $index) in menuList" :index="$index" :key="$index">
                 <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>用户管理</span>
+                <span>{{menu.name}}</span>
                 </template>
-                <el-menu-item index="1-1">用户列表</el-menu-item>
+                <el-menu-item v-for="(item, $itemIndex) in menu.children" :index="$index+'-'+$itemIndex" :key="item.path" :route="item">
+                <i :class="'iconfont ' + item.className"></i>
+                <span>{{item.name}}</span>
+                </el-menu-item>
             </el-submenu>
-            <el-submenu index="2">
-                <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>系统配置</span>
-                </template>
-                <el-menu-item index="2-1">会员等级</el-menu-item>
-                <el-menu-item index="2-2">域名管理</el-menu-item>
-                <el-menu-item index="2-2">栏目管理</el-menu-item>
-            </el-submenu>
-          </el-menu>
+        </el-menu>
       </div>
       <div class="admin-content">
           <router-view></router-view>
@@ -29,7 +21,45 @@
 <script>
 export default {
     data () {
-        return {}
+        return {
+            menuList: [
+                {
+                    name: '用户管理',
+                    children: [
+                        {
+                        name: '用户列表',
+                        path: 'userManage',
+                        // className: 'bj-icon-tushen-scxm'
+                        }
+                    ]
+                },
+                {
+                    name: '系统配置',
+                    children: [
+                        {
+                        name: '会员等级',
+                        path: 'gradeManage',
+                        // className: 'bj-icon-tushen-scxm'
+                        },
+                        {
+                        name: '域名管理',
+                        path: 'domainNameManage',
+                        // className: 'bj-icon-tushen-scxm'
+                        },
+                        {
+                        name: '栏目管理',
+                        path: 'columnsManage',
+                        // className: 'bj-icon-tushen-scxm'
+                        }
+                    ]
+                },
+            ]
+        }
+    },
+    methods: {
+        menuSelect (index, indexData, menuItem) {
+            this.$router.push(`/admin/${menuItem.route.path}`)
+        }
     }
 }
 </script>

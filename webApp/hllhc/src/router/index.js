@@ -5,6 +5,9 @@ import MainContainer from '@/components/Layout/MainContainer'
 import AdminContainer from '@/pages/admin/components/AdminContainer'
 import adminIndex from '@/pages/admin/adminIndex'
 import userManage from '@/pages/admin/userManage'
+import gradeManage from '@/pages/admin/gradeManage'
+import domainNameManage from '@/pages/admin/domainNameManage'
+import columnsManage from '@/pages/admin/columnsManage'
 import loginPage from '@/pages/loginPage'
 Vue.use(Router)
 let routes = [
@@ -48,6 +51,24 @@ let routes = [
         name: 'adminUserManage',
         desc: '平台管理-用户管理',
         component: userManage
+      },
+      {
+        path: 'gradeManage',
+        name: 'adminGradeManage',
+        desc: '平台管理-会员等级',
+        component: gradeManage
+      },
+      {
+        path: 'domainNameManage',
+        name: 'adminDomainNameManage',
+        desc: '平台管理-域名管理',
+        component: domainNameManage
+      },
+      {
+        path: 'columnsManage',
+        name: 'adminColumnsManage',
+        desc: '平台管理-域名管理',
+        component: columnsManage
       }
     ]
   }

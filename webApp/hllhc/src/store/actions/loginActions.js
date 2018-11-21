@@ -8,6 +8,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 let loginActions = {
   userLogin (context, params) {
+    let _this = this
     let vm = this._vm
     return vm.$axios.get(`/api/UserHandler.ashx?action=login&username=${params.username}&password=${params.password}`, {}, {
       guest: true,
@@ -15,9 +16,16 @@ let loginActions = {
         redirect_uri: urlPrefix + '/main/login'
       }
     }).then(resp => {
-      let data = JSON.parse(resp.data)
+      let data = resp.data
       if (data.code === '1' && data.detail.userCookie) {
         sessionStorage.setItem('atk', resp.data.detail.userCookie)
+        let toPath = ''
+        if (data.detail.cmUser.userType === 1) {
+          toPath = '/#/admin/userManage'
+        } else {
+          toPath = '/#/main/index'
+        }
+        window.location.href = window.location.origin + toPath
       } else {
         this.$message.error(data.msg)
       }
