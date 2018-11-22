@@ -32,7 +32,7 @@
                     <template slot-scope="scope">
                         <div>
                             <el-select class="domain-select" v-model="scope.row.realmNameInfo" multiple>
-                                <el-option v-for="item in realmNameInfo" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                                <el-option v-for="item in realmList" :key="item.Id" :label="item.realmName" :value="item.Id"></el-option>
                             </el-select>
                         </div>
                     </template>
@@ -43,7 +43,18 @@
                     <template slot-scope="scope">
                         <div>
                             <el-select v-model="scope.row.gradeId">
-                                <el-option v-for="item in gradeList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                                <el-option v-for="item in gradeList" :key="item.Id" :label="item.gradeName" :value="item.Id"></el-option>
+                            </el-select>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    label="栏目"
+                    width="120px">
+                    <template slot-scope="scope">
+                        <div>
+                            <el-select v-model="scope.row.columnInfoId">
+                                <el-option v-for="item in columnList" :key="item.Id" :label="item.columnName" :value="item.Id"></el-option>
                             </el-select>
                         </div>
                     </template>
@@ -122,8 +133,17 @@
                         <el-form-item prop="companyName" label="公司名称:">
                             <el-input v-model="userForm.companyName"></el-input>
                         </el-form-item>
-                        <el-form-item prop="companyRemark" label="所属栏目:">
-                            <el-select v-model="userForm.companyRemark"></el-select>
+                        <el-form-item prop="columnInfoId" label="所属栏目:">
+                            <el-select v-model="userForm.columnInfoId">
+                                <el-option v-for="item in columnList" :key="item.Id" :label="item.columnName" :value="item.Id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item prop="companyRemark" label="公司简介:">
+                            <el-input 
+                            type="textarea"
+                            :rows="2"
+                            placeholder="请输入公司简介"
+                            v-model="userForm.companyRemark"></el-input>
                         </el-form-item>
                     </el-row>
                 </el-form>
@@ -141,46 +161,16 @@ export default {
     data () {
         return {
             list: [],
-            gradeList: [
-                {
-                    id: 3,
-                    name: '钻石'
-                },
-                {
-                    id: 2,
-                    name: '铂金'
-                },
-                {
-                    id: 1,
-                    name: '普通'
-                }
-            ],
-            realmNameInfo: [
-                {
-                    id: '1',
-                    name: '百度',
-
-                },
-                {
-                    id: '2',
-                    name: '新浪'
-                },
-                {
-                    id: '3',
-                    name: '雅虎'
-                },
-                {
-                    id: '4',
-                    name: '阿里云'
-                }
-            ],
+            columnList: [],
+            gradeList: [],
+            realmList: [],
             dialogVisible: false,
             userForm: {
                 Id: 0,
                 address: '',
                 canPubCount: 200,
                 city: '',
-                columnInfoId: 1, // 所属栏目
+                columnInfoId: '', // 所属栏目
                 com_web: '',
                 companyName: '', // 公司名称
                 companyRemark: '', // 公司简介
@@ -218,7 +208,7 @@ export default {
             this.$store.dispatch('getUserList').then(resp => {
                 if (resp.data.code === '1') {
                     _this.list = resp.data.detail.cmUserList.map(item => {
-                        item.realmNameInfo = item.realmNameInfo.split(',')
+                        item.realmNameInfo = item.realmNameInfo.split(',').map(item => {return Number(item)})
                         return item
                     })
                 } else {
@@ -226,6 +216,36 @@ export default {
                 }
             }).catch(err => {
                 this.$message.error('获取用户列表失败！')
+                consolel.log(err)
+            })
+        },
+        getcolumnlist () {
+            let _this = this
+            this.$store.dispatch('getColumnList').then(resp => {
+                if (resp.data.code === '1') {
+                    _this.columnList = resp.data.detail.columnList
+                }
+            }).catch(err => {
+                consolel.log(err)
+            })
+        },
+        getgradelist () {
+            let _this = this
+            this.$store.dispatch('getGradeList').then(resp => {
+                if (resp.data.code === '1') {
+                    _this.gradeList = resp.data.detail.gradeList
+                }
+            }).catch(err => {
+                consolel.log(err)
+            })
+        },
+        getrealmlist () {
+            let _this = this
+            this.$store.dispatch('getRealmList').then(resp => {
+                if (resp.data.code === '1') {
+                    _this.realmList = resp.data.detail.realmList
+                }
+            }).catch(err => {
                 consolel.log(err)
             })
         },
@@ -264,6 +284,9 @@ export default {
         }
     },
     mounted: function () {
+        this.getcolumnlist()
+        this.getgradelist()
+        this.getrealmlist()
         this.initData()
     }
 }
