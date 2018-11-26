@@ -71,7 +71,7 @@ export default {
     .admin-left-menu{
         border-right: 1px solid #ebeef5;
         float: left;
-        position: absolute;
+        position: fixed;
         width: 200px;
         height: 100%;
         .el-menu{

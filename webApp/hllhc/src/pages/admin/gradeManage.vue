@@ -1,6 +1,8 @@
 <template>
     <div>
-        <div><el-button @click="addGrade">添加</el-button></div>
+        <div class="user-grade-buttons">
+            <el-button type="primary" @click="addGrade">添加</el-button>
+        </div>
         <div class="user-grade-list">
             <el-table
             :data="list"
@@ -23,15 +25,19 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                    label="操作">
+                    label="操作"
+                    width="200px">
                     <template slot-scope="scope">
                         <span v-if="!scope.row.needSave">
-                             <el-button @click="edit(scope.row)">编辑</el-button>
-                             <el-button @click="remove(scope.$index, scope.row.Id)">删除</el-button>
+                             <el-button @click="edit(scope.row)"
+                             size="mini">编辑</el-button>
+                             <el-button
+                             size="mini"
+                             type="danger" @click="remove(scope.$index, scope.row.Id)">删除</el-button>
                         </span>
                         <span v-if="scope.row.needSave">
-                            <el-button @click="cancel(scope.$index, scope.row)">取消</el-button>
-                            <el-button @click="save(scope.$index, scope.row)" v-loading="saveLoading">保存</el-button>
+                            <el-button size="mini" @click="cancel(scope.$index, scope.row)">取消</el-button>
+                            <el-button size="mini" @click="save(scope.$index, scope.row)" v-loading="saveLoading">保存</el-button>
                         </span>
                     </template>
                 </el-table-column>
@@ -60,7 +66,7 @@ export default {
                     })
                 }
             }).catch(err => {
-                consolel.log(err)
+                console.log(err)
             })
         },
         addGrade () {
@@ -70,7 +76,7 @@ export default {
                 pubCount: '',
                 needSave: true
             }
-            this.list.push(item)
+            this.list.unshift(item)
             this.currentEditData = item
         },
         edit(data) {
@@ -103,7 +109,20 @@ export default {
             }
         },
         remove(index, Id) {
-            this.list.splice(index, 1)
+          let params = {
+              gradeId: Id
+          }
+          this.$store.dispatch('deleteGrade', params).then(res => {
+              if (res.data.code === '1') {
+                  this.list.splice(index, 1)
+                  this.$message.success('删除成功！')
+              } else {
+                  this.$message.error('删除失败！')
+              }
+          }).catch(err => {
+              this.$message.error('删除失败！')
+              console.log(err)
+          })
         }
     },
     mounted: function () {
@@ -112,5 +131,14 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.user-grade-buttons{
+    padding-bottom: 12px;
+    border-bottom: 4px solid #F2F2F2;
+}
+.user-grade-list{
+    padding-left: 12px;
+    padding-right: 12px;
+    height: 600px;
+    overflow: auto;
+}
 </style>
