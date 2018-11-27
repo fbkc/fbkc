@@ -1,7 +1,7 @@
 <template>
-<!-- 门户首页 -->
- <div class="index">
-      <div class="main-content"> 首页</div>
+<!-- 地区设置列表 -->
+ <div class="region-list">
+      <div class="main-content"> 地区列表</div>
   </div>
 </template>
 <script>

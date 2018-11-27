@@ -1,7 +1,7 @@
 <template>
-<!-- 门户首页 -->
- <div class="index">
-      <div class="main-content"> 首页</div>
+<!-- 手动发布 -->
+ <div class="hand-publish">
+      <div class="main-content"> 手动发布</div>
   </div>
 </template>
 <script>

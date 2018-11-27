@@ -1,7 +1,7 @@
 <template>
-<!-- 门户首页 -->
- <div class="index">
-      <div class="main-content"> 首页</div>
+<!-- 发布设置 -->
+ <div class="publish-manage">
+      <div class="main-content"> 发布设置</div>
   </div>
 </template>
 <script>

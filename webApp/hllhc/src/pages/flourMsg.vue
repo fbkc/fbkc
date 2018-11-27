@@ -1,7 +1,7 @@
 <template>
-<!-- 门户首页 -->
- <div class="index">
-      <div class="main-content"> 首页</div>
+<!-- 轮播图集 -->
+ <div class="image-list">
+      <div class="main-content"> 轮播图集设置页</div>
   </div>
 </template>
 <script>

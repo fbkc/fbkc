@@ -1,7 +1,7 @@
 <template>
-<!-- 门户首页 -->
- <div class="index">
-      <div class="main-content"> 首页</div>
+<!-- 公司信息 -->
+ <div class="org-information">
+      <div class="main-content"> 公司信息页</div>
   </div>
 </template>
 <script>

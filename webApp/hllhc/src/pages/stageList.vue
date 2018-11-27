@@ -1,7 +1,7 @@
 <template>
-<!-- 门户首页 -->
- <div class="index">
-      <div class="main-content"> 首页</div>
+<!-- 段落列表 -->
+ <div class="stage-list">
+      <div class="main-content"> 段落列表</div>
   </div>
 </template>
 <script>

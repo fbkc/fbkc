@@ -1,7 +1,7 @@
 <template>
-<!-- 门户首页 -->
- <div class="index">
-      <div class="main-content"> 首页</div>
+<!-- 关键词列表 -->
+ <div class="key-word-list">
+      <div class="main-content"> 关键词列表</div>
   </div>
 </template>
 <script>

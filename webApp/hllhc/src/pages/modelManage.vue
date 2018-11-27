@@ -1,7 +1,7 @@
 <template>
-<!-- 门户首页 -->
- <div class="index">
-      <div class="main-content"> 首页</div>
+<!-- 模板设置 -->
+ <div class="model-manage">
+      <div class="main-content"> 模板设置</div>
   </div>
 </template>
 <script>
