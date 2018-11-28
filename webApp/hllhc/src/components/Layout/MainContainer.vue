@@ -114,15 +114,14 @@ export default {
 </script>
 <style lang="less" scoped>
 @import '../../style/variables.less';
-@headerHeight: 66px;
-@footerHeight: 34px;
-.header
-{
-  background: #383c49;
+@headerHeight: 46px;
+@footerHeight: 24px;
+.header{
+  background: #0099cc;
   position: fixed;
   top: 0;
   width: 100%;
-  height: 66px;
+  height: @headerHeight;
   z-index: 2;
   .header-title{
     color: @activeFontColor;
@@ -141,7 +140,7 @@ export default {
   // height: 100%;
   z-index: 1;
   height: calc(100% - @headerHeight - @footerHeight);
-  top: 66px;
+  top: @headerHeight;
   width: 100%;
   .main-left-menus{
     overflow-y: auto;
@@ -152,6 +151,7 @@ export default {
     height: calc(100% - @headerHeight - @footerHeight);
     .el-menu{
         border: none;
+        background: rgb(175, 170, 170);
     }
   }
   .main-left-menus::-webkit-scrollbar {
@@ -164,17 +164,17 @@ export default {
     margin-left: 200px;
     position: absolute;
     float: left;
-    width: calc(100% - 210px);
+    width: calc(100% - 222px);
     height: 100%;
   }
 }
 .footer
 {
-  background: #383c49;
+  background: #0099cc;
   position: fixed;
   bottom:0;
   width: 100%;
-  height: 34px;
+  height: @footerHeight;
   z-index: 2;
 }
 </style>
