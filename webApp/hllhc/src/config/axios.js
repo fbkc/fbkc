@@ -47,6 +47,7 @@ function install (Vue, router) {
  * 全局返回数据拦截
  */
 function interceptors (axios, Vue, router) {
+  let _this = this
   axios.interceptors.request.use(function (config) {
     // guest请求无需进行身份验证
     if (config.guest === true) {
@@ -67,6 +68,9 @@ function interceptors (axios, Vue, router) {
     return response
     // 相应设置
   }, function (error) {
+    if (error.response.status === 401) {
+      router.push({path: '/login'})
+    }
     return Promise.reject(error.response)
   })
 }

@@ -1,40 +1,21 @@
 <template>
     <div>
-        <div class="user-domain-buttons">
-            <el-button type="primary" @click="addDomain">添加</el-button>
+        <div class="user-suffix-buttons">
+            <el-button type="primary" @click="addTailWord">添加</el-button>
         </div>
-        <div class="user-domain-list">
+        <div class="user-suffix-list">
             <el-table
             :data="list"
             style="width: 100%">
                 <el-table-column
-                label="序号"
-                width="60px"
-                type="index">
+                    label="序号"
+                    width="60px"
+                    type="index">
                 </el-table-column>
                 <el-table-column
-                    label="域名名称">
+                    label="长尾词">
                     <template slot-scope="scope">
-                        <el-input :disabled="!scope.row.needSave" v-model="scope.row.realmName"></el-input>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    label="链接">
-                    <template slot-scope="scope">
-                        <el-input :disabled="!scope.row.needSave" v-model="scope.row.realmAddress"></el-input>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    label="可用">
-                    <template slot-scope="scope">
-                        <el-switch
-                        :disabled="!scope.row.needSave"
-                        v-model="scope.row.isUseing"
-                        active-color="#13ce66"
-                        inactive-color="#ff4949"
-                        :active-value="true"
-                        :inactive-value="false">
-                        </el-switch>
+                        <el-input :disabled="!scope.row.needSave" v-model="scope.row.tailword"></el-input>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -42,8 +23,11 @@
                     width="200px">
                     <template slot-scope="scope">
                         <span v-if="!scope.row.needSave">
-                             <el-button size="mini" @click="edit(scope.row)">编辑</el-button>
-                             <el-button size="mini" type="danger" @click="remove(scope.$index, scope.row.Id)">删除</el-button>
+                             <el-button @click="edit(scope.row)"
+                             size="mini">编辑</el-button>
+                             <el-button
+                             size="mini"
+                             type="danger" @click="remove(scope.$index, scope.row.Id)">删除</el-button>
                         </span>
                         <span v-if="scope.row.needSave">
                             <el-button size="mini" @click="cancel(scope.$index, scope.row)">取消</el-button>
@@ -52,6 +36,15 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <div>
+                <el-pagination class="list-pagination"
+                @current-change="initData"
+                :current-page.sync="currentPage"
+                :page-size="pageSize"
+                layout="total, prev, pager, next"
+                :total="total">
+                </el-pagination>
+            </div>
         </div>
     </div>
 </template>
@@ -62,15 +55,22 @@ export default {
         return {
             list: [],
             saveLoading: false,
-            currentEditData: {}
+            currentEditData: {},
+            currentPage: 1,
+            pageSize: 10,
+            total: 0
         }
     },
     methods: {
-        getDomainList () {
+        initData () {
+            this.getTailWordList()
+        },
+        getTailWordList () {
             let _this = this
-            this.$store.dispatch('getDomainList').then(resp => {
+            this.$store.dispatch('tailwordList').then(resp => {
                 if (resp.data.code === 1) {
-                    _this.list = resp.data.detail.realmList.map(item => {
+                    _this.total = resp.data.detail.total
+                    _this.list = resp.data.detail.tailwordList.map(item => {
                         item.needSave = false
                         return item
                     })
@@ -79,12 +79,10 @@ export default {
                 console.log(err)
             })
         },
-        addDomain () {
+        addTailWord () {
             let item = {
                 Id: 0,
-                realmName: '',
-                realmAddress: '',
-                isUseing: true,
+                tailword: '',
                 needSave: true
             }
             this.list.unshift(item)
@@ -101,7 +99,7 @@ export default {
             let params = {
                 params: JSON.stringify(item)
             }
-            this.$store.dispatch('saveDomain', qs.stringify(params)).then (res => {
+            this.$store.dispatch('saveTail', qs.stringify(params)).then (res => {
                 this.saveLoading = false
                 this.list[index].needSave = false
                 if (res.data.code === 1) {
@@ -121,9 +119,9 @@ export default {
         },
         remove(index, Id) {
           let params = {
-              domainId: Id
+              Id: Id
           }
-          this.$store.dispatch('deleteDomain', params).then(res => {
+          this.$store.dispatch('delTail', params).then(res => {
               if (res.data.code === 1) {
                   this.list.splice(index, 1)
                   this.$message.success('删除成功！')
@@ -137,19 +135,25 @@ export default {
         }
     },
     mounted: function () {
-        this.getDomainList()
+        this.initData()
     }
 }
 </script>
 <style lang="less" scoped>
-.user-domain-buttons{
+.user-suffix-buttons{
     padding-bottom: 12px;
     border-bottom: 4px solid #F2F2F2;
 }
-.user-domain-list{
+.user-suffix-list{
     padding-left: 12px;
     padding-right: 12px;
     height: 600px;
-    overflow: auto;
+    overflow-y: auto;
+    .list-pagination{
+        position: relative;
+        float: right;
+        right: 24px;
+        top: 12px;
+    }
 }
 </style>

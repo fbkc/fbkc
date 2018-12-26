@@ -232,7 +232,7 @@ export default {
                 pageSize: this.pageSize
             }
             this.$store.dispatch('getUserList', params).then(resp => {
-                if (resp.data.code === '1') {
+                if (resp.data.code === 1) {
                     _this.list = resp.data.detail.cmUserList.map(item => {
                         item.realmNameInfo = item.realmNameInfo.split(',').map(item => {return Number(item)})
                         return item
@@ -249,7 +249,7 @@ export default {
         getcolumnlist () {
             let _this = this
             this.$store.dispatch('getColumnList').then(resp => {
-                if (resp.data.code === '1') {
+                if (resp.data.code === 1) {
                     _this.columnList = resp.data.detail.columnList
                 }
             }).catch(err => {
@@ -259,7 +259,7 @@ export default {
         getgradelist () {
             let _this = this
             this.$store.dispatch('getGradeList').then(resp => {
-                if (resp.data.code === '1') {
+                if (resp.data.code === 1) {
                     _this.gradeList = resp.data.detail.gradeList
                 }
             }).catch(err => {
@@ -269,7 +269,7 @@ export default {
         getrealmlist () {
             let _this = this
             this.$store.dispatch('getDomainList').then(resp => {
-                if (resp.data.code === '1') {
+                if (resp.data.code === 1) {
                     _this.realmList = resp.data.detail.realmList
                 }
             }).catch(err => {
@@ -293,7 +293,7 @@ export default {
                 params: JSON.stringify(form)
             }
             this.$store.dispatch('addUser', qs.stringify(params)).then(res => {
-                if (res.data.code === '1') {
+                if (res.data.code === 1) {
                     this.dialogVisible = false
                     this.$refs.userForm.resetFields()
                     this.confirmPass = ''
@@ -311,7 +311,7 @@ export default {
               userId: Id
           }
           this.$store.dispatch('deleteUser', params).then(res => {
-              if (res.data.code === '1') {
+              if (res.data.code === 1) {
                   this.list.splice(index, 1)
                   this.total--
                   this.$message.success('删除成功！')

@@ -19,7 +19,12 @@ import userManage from '@/pages/admin/userManage'
 import gradeManage from '@/pages/admin/gradeManage'
 import domainNameManage from '@/pages/admin/domainNameManage'
 import columnsManage from '@/pages/admin/columnsManage'
+import suffixsManage from '@/pages/admin/suffixsManage'
 import loginPage from '@/pages/loginPage'
+import goodsList from '@/pages/goodsList'
+import goods from '@/pages/goods'
+import goodsInfo from '@/pages/goodsInfo'
+import newGoods from '@/pages/newGoods'
 Vue.use(Router)
 let routes = [
   {
@@ -27,6 +32,15 @@ let routes = [
     name: 'login',
     desc: '登陆',
     component: loginPage
+  },
+  {
+    path: '/newGoods',
+    name: 'newGoods',
+    desc: '新建产品',
+    component: newGoods,
+    meta: {
+      Auth: true
+    }
   },
   {
     path: '/main',
@@ -44,60 +58,6 @@ let routes = [
         }
       },
       {
-        path: 'flourMsg',
-        name: 'flourMsg',
-        desc: '轮播图集',
-        component: flourMsg,
-        meta: {
-          Auth: true
-        }
-      },
-      {
-        path: 'handPublish',
-        name: 'handPublish',
-        desc: '手动发布',
-        component: handPublish,
-        meta: {
-          Auth: true
-        }
-      },
-      {
-        path: 'headerManage',
-        name: 'headerManage',
-        desc: '标题设置',
-        component: headerManage,
-        meta: {
-          Auth: true
-        }
-      },
-      {
-        path: 'imageList',
-        name: 'imageList',
-        desc: '图片列表',
-        component: imageList,
-        meta: {
-          Auth: true
-        }
-      },
-      {
-        path: 'keyWordList',
-        name: 'keyWordList',
-        desc: '关键词列表',
-        component: keyWordList,
-        meta: {
-          Auth: true
-        }
-      },
-      {
-        path: 'modelManage',
-        name: 'modelManage',
-        desc: '模板设置',
-        component: modelManage,
-        meta: {
-          Auth: true
-        }
-      },
-      {
         path: 'orgInfo',
         name: 'orgInfo',
         desc: '公司信息',
@@ -107,69 +67,121 @@ let routes = [
         }
       },
       {
-        path: 'publishManage',
-        name: 'publishManage',
-        desc: '发布设置',
-        component: publishManage,
+        path: 'flourMsg',
+        name: 'flourMsg',
+        desc: '轮播图集',
+        component: flourMsg,
         meta: {
           Auth: true
         }
       },
       {
-        path: 'regionList',
-        name: 'regionList',
-        desc: '地区列表',
-        component: regionList,
+        path: 'goodsList',
+        name: 'goodsList',
+        desc: '产品列表',
+        component: goodsList,
         meta: {
           Auth: true
         }
       },
       {
-        path: 'stageList',
-        name: 'stageList',
-        desc: '段落列表',
-        component: stageList,
-        meta: {
-          Auth: true
-        }
-      },
-      {
-        path: 'suffixList',
-        name: 'suffixList',
-        desc: '后缀列表',
-        component: suffixList,
-        meta: {
-          Auth: true
-        }
-      },
-      {
-        path: 'index',
-        name: 'mainIndex',
-        desc: '用户首页',
-        component: index,
-        meta: {
-          Auth: true
-        }
-      },
-      {
-        path: 'index',
-        name: 'mainIndex',
-        desc: '用户首页',
-        component: index,
-        meta: {
-          Auth: true
-        }
-      },
-      {
-        path: 'index',
-        name: 'mainIndex',
-        desc: '用户首页',
-        component: index,
-        meta: {
-          Auth: true
-        }
-      },
-
+        path: 'goods/:goodsId',
+        name: 'goods',
+        desc: '产品页',
+        component: goods,
+        children: [
+          {
+            path: 'goodsInfo',
+            name: 'goodsInfo',
+            desc: '产品信息',
+            component: goodsInfo,
+            meta: {
+              Auth: true
+            }
+          },
+          {
+            path: 'handPublish',
+            name: 'handPublish',
+            desc: '手动发布',
+            component: handPublish,
+            meta: {
+              Auth: true
+            }
+          },
+          {
+            path: 'headerManage',
+            name: 'headerManage',
+            desc: '标题设置',
+            component: headerManage,
+            meta: {
+              Auth: true
+            }
+          },
+          {
+            path: 'imageList',
+            name: 'imageList',
+            desc: '图片列表',
+            component: imageList,
+            meta: {
+              Auth: true
+            }
+          },
+          {
+            path: 'keyWordList',
+            name: 'keyWordList',
+            desc: '关键词列表',
+            component: keyWordList,
+            meta: {
+              Auth: true
+            }
+          },
+          {
+            path: 'modelManage',
+            name: 'modelManage',
+            desc: '模板设置',
+            component: modelManage,
+            meta: {
+              Auth: true
+            }
+          },
+          {
+            path: 'publishManage',
+            name: 'publishManage',
+            desc: '发布设置',
+            component: publishManage,
+            meta: {
+              Auth: true
+            }
+          },
+          {
+            path: 'regionList',
+            name: 'regionList',
+            desc: '地区列表',
+            component: regionList,
+            meta: {
+              Auth: true
+            }
+          },
+          {
+            path: 'stageList',
+            name: 'stageList',
+            desc: '段落列表',
+            component: stageList,
+            meta: {
+              Auth: true
+            }
+          },
+          {
+            path: 'suffixList',
+            name: 'suffixList',
+            desc: '长尾列表',
+            component: suffixList,
+            meta: {
+              Auth: true
+            }
+          },
+        ],
+      }
     ]
   },
   {
@@ -207,6 +219,12 @@ let routes = [
         name: 'adminColumnsManage',
         desc: '平台管理-域名管理',
         component: columnsManage
+      },
+      {
+        path: 'suffixsManage',
+        name: 'adminColumnsManage',
+        desc: '平台管理-长尾词词库设置',
+        component: suffixsManage
       }
     ]
   }

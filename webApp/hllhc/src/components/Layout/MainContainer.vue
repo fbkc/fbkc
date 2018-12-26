@@ -2,6 +2,7 @@
   <div>
     <div class="header">
       <div class="header-title"><span @click="goToIndex">神州第一信息发布系统</span></div>
+      <div class="logout-icon"><span @click="logOut">登出</span></div>
     </div>
     <div class="main-content">
       <div class="main-left-menus">
@@ -25,6 +26,7 @@
   </div>
 </template>
 <script>
+import cookie from '@/utils/cookie'
 export default {
   data () {
     return {
@@ -45,69 +47,38 @@ export default {
                     ]
                 },
                 {
-                    name: '内容管理',
+                   name: '产品管理',
                     children: [
                         {
-                        name: '地区',
-                        path: 'regionList',
-                        // className: 'bj-icon-tushen-scxm'
-                        },
-                        {
-                        name: '关键词',
-                        path: 'keyWordList',
-                        // className: 'bj-icon-tushen-scxm'
-                        },
-                        {
-                        name: '后缀词',
-                        path: 'suffixList',
-                        // className: 'bj-icon-tushen-scxm'
-                        },
-                        {
-                        name: '段落',
-                        path: 'stageList',
-                        // className: 'bj-icon-tushen-scxm'
-                        },
-                        {
-                        name: '图片',
-                        path: 'imageList',
-                        // className: 'bj-icon-tushen-scxm'
-                        }
-                    ]
-                },
-                {
-                    name: '发布管理',
-                    children: [
-                        {
-                          name: '标题设置',
-                          path: 'headerManage',
-                          // className: 'bj-icon-tushen-scxm'
-                        },
-                        {
-                          name: '模板设置',
-                          path: 'modelManage',
-                          // className: 'bj-icon-tushen-scxm'
-                        },
-                        {
-                          name: '发布设置',
-                          path: 'publishManage',
-                          // className: 'bj-icon-tushen-scxm'
-                        },
-                        {
-                          name: '手动发布',
-                          path: 'handPublish',
+                          name: '产品',
+                          path: 'goodsList',
                           // className: 'bj-icon-tushen-scxm'
                         }
                     ]
-                },
+                }
             ]
     }
   },
   methods: {
       menuSelect (index, indexData, menuItem) {
-          this.$router.push(`/main/${menuItem.route.path}`)
+        this.$router.push(`/main/${menuItem.route.path}`)
       },
       goToIndex () {
         this.$router.push('/main/index')
+      },
+      logOut () {
+        this.$store.dispatch('userLogout').then(res => {
+          if (res.data.code === 1) {
+            this.$router.push({path: '/login'})
+            let name = 'ASP.NET_SessionId'
+            cookie.delete(name)
+            sessionStorage.removeItem('atk')
+          } else {
+            this.$message.error('登出失败！')
+          }
+        }).catch(err => {
+          console.log(err)
+        })
       }
   }
 }
@@ -134,6 +105,16 @@ export default {
       cursor: pointer;
     }
   }
+  .logout-icon{
+    position: relative;
+    float: right;
+    right: 24px;
+    top: 11px;
+    span{
+      padding-bottom: 1px;
+      border-bottom: 1px solid #000;
+    }
+  }
 }
 .main-content{
   position: fixed;
@@ -155,11 +136,12 @@ export default {
     }
   }
   .main-left-menus::-webkit-scrollbar {
-      width: 0;   /* 滚动条宽度为0 */
-      height: 0; /* 滚动条高度为0 */
+      width: 0px;   /* 滚动条宽度为0 */
+      height: 0px; /* 滚动条高度为0 */
       display: none; /* 滚动条隐藏 */
     }
   .main-right-content{
+    overflow-y: auto;
     padding: 12px;
     margin-left: 200px;
     position: absolute;

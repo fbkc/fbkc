@@ -5,9 +5,7 @@ if (process.env.NODE_ENV !== 'development') {
 let adminActions = {
   getUserList (context, params) {
     let vm = this._vm
-    return vm.$axios.get(`/api/UserHandler.ashx?action=getuserlist`, {params}, {
-        guest: true
-    })
+    return vm.$axios.get(`/api/UserHandler.ashx?action=getuserlist`, {params})
   },
   addUser (context, params) {
     let vm = this._vm
@@ -52,6 +50,18 @@ let adminActions = {
   deleteGrade (context, params) { // 删除会员等级
     let vm = this._vm
     return vm.$axios.post(`/api/UserHandler.ashx?action=delgrade&Id=`+ params.gradeId)
+  },
+  tailwordList (context, params) { // 获取长尾词词库列表
+    let vm = this._vm
+    return vm.$axios.get(`/api/UserHandler.ashx?action=gettailwordlist`)
+  },
+  saveTail (context, params) { // 保存长尾词
+    let vm = this._vm
+    return vm.$axios.post(`/api/UserHandler.ashx?action=savetailword`, params, {headers:{'Content-Type':'application/x-www-form-urlencoded; charset=utf-8'}})
+  },
+  delTail (context, params) { // 删除长尾词
+    let vm = this._vm
+    return vm.$axios.post(`/api/UserHandler.ashx?action=deltailword&Id=`+ params.Id)
   }
 }
 export default adminActions

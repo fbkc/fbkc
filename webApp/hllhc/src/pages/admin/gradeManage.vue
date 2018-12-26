@@ -59,7 +59,7 @@ export default {
         getGradeList () {
             let _this = this
             this.$store.dispatch('getGradeList').then(resp => {
-                if (resp.data.code === '1') {
+                if (resp.data.code === 1) {
                     _this.list = resp.data.detail.gradeList.map(item => {
                         item.needSave = false
                         return item
@@ -93,7 +93,7 @@ export default {
             this.$store.dispatch('saveGrade', qs.stringify(params)).then (res => {
                 this.saveLoading = false
                 this.list[index].needSave = false
-                if (res.data.code === '1') {
+                if (res.data.code === 1) {
                     this.$message.success('保存成功！')
                 } else {
                     this.$message.error('添加失败！')
@@ -113,7 +113,7 @@ export default {
               gradeId: Id
           }
           this.$store.dispatch('deleteGrade', params).then(res => {
-              if (res.data.code === '1') {
+              if (res.data.code === 1) {
                   this.list.splice(index, 1)
                   this.$message.success('删除成功！')
               } else {

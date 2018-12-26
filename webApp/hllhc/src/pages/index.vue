@@ -6,7 +6,7 @@
         <div class="total-publish">
           <div class="title">发布统计</div>
           <div style="padding: 12px">
-            <el-progress class="publish-progress" type="circle" width="88" :percentage="80" color="#fff000"></el-progress>
+            <el-progress class="publish-progress"  :width="88" type="circle" :percentage="80" color="#fff000"></el-progress>
             <div class="content">
               <span>每日发布: {{500}}条 建议200-2000条</span>
               <span>今日发布: {{0}}条 如果停发见错误日志</span>

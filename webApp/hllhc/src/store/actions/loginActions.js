@@ -10,14 +10,14 @@ let loginActions = {
   userLogin (context, params) {
     let _this = this
     let vm = this._vm
-    return vm.$axios.get(`/api/UserHandler.ashx?action=login&username=${params.username}&password=${params.password}`, {}, {
+    return vm.$axios.get(`/api/Login.ashx?action=login&username=${params.username}&password=${params.password}`, {}, {
       guest: true,
       params: {
         redirect_uri: urlPrefix + '/main/login'
       }
     }).then(resp => {
       let data = resp.data
-      if (data.code === '1' && data.detail.userCookie) {
+      if (data.code === 1 && data.detail.userCookie) {
         sessionStorage.setItem('atk', resp.data.detail.userCookie)
         let toPath = ''
         if (data.detail.cmUser.userType === 1) {
@@ -46,6 +46,10 @@ let loginActions = {
     }).catch(() => {
         this._vm.$message.error('获取token失败')
     })
+  },
+  userLogout (context, params) {
+    let vm = this._vm
+    return vm.$axios.get(`/api/UserHandler.ashx?action=logout`)
   }
 }
 

@@ -50,6 +50,10 @@ export default {
                         name: '栏目管理',
                         path: 'columnsManage',
                         // className: 'bj-icon-tushen-scxm'
+                        },
+                        {
+                        name: '长尾词库',
+                        path: 'suffixsManage',
                         }
                     ]
                 },

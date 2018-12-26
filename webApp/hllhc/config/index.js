@@ -6,7 +6,7 @@ const path = require('path')
 const aliyunTarget = 'http://39.105.196.3:1874'
 const hechaoTarget = 'http://182.46.167.142:6808'
 let rules = {
-  '/api/*': {
+  '/api': {
     target: aliyunTarget,
     changeOrigin: false,
     pathRewrite: {
